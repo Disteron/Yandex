@@ -92,7 +92,6 @@ public class YandexTest1 {
         }
         WriteParamXML(result);
         driver.quit();
-
     }
 
     public void WriteParamXML(String result) throws TransformerException, IOException, ParserConfigurationException {
@@ -119,6 +118,5 @@ public class YandexTest1 {
 
         Transformer t = TransformerFactory.newInstance().newTransformer();
         t.transform(new DOMSource(doc), new StreamResult(new FileOutputStream("src/test/resources/results/result.xml")));
-
     }
 }
