@@ -68,9 +68,9 @@ public class YandexTest1 {
         driver.findElement(By.xpath("//b[text()=\"mail.yandex.ru\"]")).click();
 
         Thread.sleep(2000);
-        Set<String> window_after = driver.getWindowHandles();
-        ArrayList<String> list = new ArrayList<>(window_after.size());
-        list.addAll(window_after);
+        Set<String> windows = driver.getWindowHandles();
+        ArrayList<String> list = new ArrayList<>(windows.size());
+        list.addAll(windows);
         driver.switchTo().window(list.get(1));
         WebElement element = driver.findElement(By.xpath("(//a/span[text()=\"Войти\"])[2]/.."));
 
