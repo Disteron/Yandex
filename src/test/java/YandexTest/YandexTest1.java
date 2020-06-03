@@ -51,7 +51,7 @@ public class YandexTest1 {
     public void test() throws InterruptedException, ParserConfigurationException, TransformerException, IOException {
 
         //определение пути до драйвера и его настройка
-        System.setProperty("webdriver.chrome.driver", "webdriver/chromedriver");
+        System.setProperty("webdriver.chrome.driver", "webdrivers/chromedriver");
         //создание экземпляра драйвера
         WebDriver driver = new ChromeDriver();
         //окно разворачивается на полный экран
@@ -69,7 +69,7 @@ public class YandexTest1 {
 
         Thread.sleep(2000);
         Set<String> windows = driver.getWindowHandles();
-        ArrayList<String> list = new ArrayList<>(windows.size());
+        ArrayList<String> list = new ArrayList<String>(windows.size());
         list.addAll(windows);
         driver.switchTo().window(list.get(1));
 
