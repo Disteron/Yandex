@@ -68,13 +68,13 @@ public class YandexTest1 {
         driver.findElement(By.xpath("//b[text()=\"mail.yandex.ru\"]")).click();
 
         Thread.sleep(2000);
-        Set<String> window_after=driver.getWindowHandles();
-        ArrayList<String> list=new ArrayList<>(window_after.size());
+        Set<String> window_after = driver.getWindowHandles();
+        ArrayList<String> list = new ArrayList<>(window_after.size());
         list.addAll(window_after);
         driver.switchTo().window(list.get(1));
-        WebElement element=driver.findElement(By.xpath("(//a/span[text()=\"Войти\"])[2]/.."));
+        WebElement element = driver.findElement(By.xpath("(//a/span[text()=\"Войти\"])[2]/.."));
 
-        Actions action=new Actions(driver);
+        Actions action = new Actions(driver);
         action.moveToElement(element).perform();
         element.click();
         int a = (int) (1000 + Math.random() * 2000);
@@ -83,11 +83,11 @@ public class YandexTest1 {
         String text = driver.findElement(By.xpath("//div[contains(text(), 'Такой логин не')]")).getText();
         String result;
         if (text.equals("Такой логин не подойдет")) {
-            result ="passed";
+            result = "passed";
             System.out.println("Автотест пройден успешно!");
         }
         else{
-            result ="failed";
+            result = "failed";
             System.out.println("Автотест пройден не успешно");
         }
         WriteParamXML(result);
@@ -98,18 +98,18 @@ public class YandexTest1 {
     public void WriteParamXML(String result) throws TransformerException, IOException, ParserConfigurationException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc=builder.newDocument();
+        Document doc = builder.newDocument();
 
-        Element root=doc.createElement("test");
+        Element root = doc.createElement("test");
 
-        Element element1=doc.createElement("name");
+        Element element1 = doc.createElement("name");
         element1.setTextContent("yandex");
 
-        Element element2=doc.createElement("date");
+        Element element2 = doc.createElement("date");
         Date date = new Date();
         element2.setTextContent(date.toString());
 
-        Element element3=doc.createElement("result");
+        Element element3 = doc.createElement("result");
         element3.setTextContent(result);
 
         doc.appendChild(root);
@@ -117,7 +117,7 @@ public class YandexTest1 {
         root.appendChild(element2);
         root.appendChild(element3);
 
-        Transformer t= TransformerFactory.newInstance().newTransformer();
+        Transformer t = TransformerFactory.newInstance().newTransformer();
         t.transform(new DOMSource(doc), new StreamResult(new FileOutputStream("src/test/resources/results/result.xml")));
 
     }
