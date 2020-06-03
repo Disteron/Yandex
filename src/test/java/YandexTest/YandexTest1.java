@@ -72,23 +72,23 @@ public class YandexTest1 {
         ArrayList<String> list = new ArrayList<>(windows.size());
         list.addAll(windows);
         driver.switchTo().window(list.get(1));
-        WebElement element = driver.findElement(By.xpath("(//a/span[text()=\"Войти\"])[2]/.."));
 
+        WebElement element = driver.findElement(By.xpath("(//a/span[text()=\"Войти\"])[2]/.."));
         Actions action = new Actions(driver);
         action.moveToElement(element).perform();
         element.click();
+
         int a = (int) (1000 + Math.random() * 2000);
         driver.findElement(By.xpath("//label[text()=\"Введите логин, почту или телефон\"]/../input")).sendKeys(String.valueOf(a));
         driver.findElement(By.xpath("//span[text()=\"Войти\"]/..")).click();
         String text = driver.findElement(By.xpath("//div[contains(text(), 'Такой логин не')]")).getText();
         String result;
+
         if (text.equals("Такой логин не подойдет")) {
             result = "passed";
-            System.out.println("Автотест пройден успешно!");
         }
         else{
             result = "failed";
-            System.out.println("Автотест пройден не успешно");
         }
         WriteParamXML(result);
         driver.quit();
