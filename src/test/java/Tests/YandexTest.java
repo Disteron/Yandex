@@ -78,8 +78,8 @@ public class YandexTest extends Base{
         int a = (int) (1000 + Math.random() * 2000);
         sendKeysToElement(driver, "//label[text()=\"Введите логин, почту или телефон\"]/../input", Integer.toString(a) );
         clickToElement(driver, "//span[text()=\"Войти\"]/..");
-        WebElement actualElement = driver.findElement(By.xpath("//div[@class=\"passp-form-field__error\"]"));
-        String actual = actualElement.getText();
+        String actual = getTextToElement(driver, "//div[@class=\"passp-form-field__error\"]");
+
         String expected = "Такой логин не подойдет";
         boolean bool = true;
         try {
