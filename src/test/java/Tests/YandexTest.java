@@ -1,4 +1,4 @@
-package YandexTest;
+package Tests;
 
 import Main.Base;
 import org.junit.Test;
@@ -6,19 +6,16 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.WebDriverWait;
+
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 
 
-public class YandexTest1 extends Base{
+public class YandexTest extends Base{
     /**
      * Техническое задание
      * С помощью Java+Maven+JUnit5:
