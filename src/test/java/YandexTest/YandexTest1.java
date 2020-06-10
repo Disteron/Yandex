@@ -1,35 +1,24 @@
 package YandexTest;
 
+import Main.Base;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 
 
-public class YandexTest1 {
+public class YandexTest1 extends Base{
     /**
      * Техническое задание
      * С помощью Java+Maven+JUnit5:
@@ -70,25 +59,12 @@ public class YandexTest1 {
         //Нажимаем на кнопку найти
         driver.findElement(By.xpath("//button[@type=\"submit\"]")).click();
 
-        // получаем набор текущих открытых окон
-        Set<String> oldWindowsSet = driver.getWindowHandles();
-
         //В результатах поиска выбираем и переходим на страницу Яндекс Почты
         // нажимаем на ссылку, которая открывает документ в новом окне
         driver.findElement(By.xpath("//b[text()=\"mail.yandex.ru\"]")).click();
 
         // ожидаем открытия и получаем дескриптор нового окна
-        String newWindowHandle = (new WebDriverWait(driver, 10))
-                .until(new ExpectedCondition<String>() {
-                           public String apply(WebDriver driver) {
-                               Set<String> newWindowsSet = driver.getWindowHandles();
-                               newWindowsSet.removeAll(oldWindowsSet);
-                               return newWindowsSet.size() > 0 ? newWindowsSet.iterator().next() : null;
-                           }
-                       }
-                );
-        driver.switchTo().window(newWindowHandle);
-
+        switchWindow(driver, 1);
         WebElement element = scrollToElement(driver, "(//a/span[text()=\"Войти\"])[2]/..");
         element.click();
 
@@ -99,57 +75,16 @@ public class YandexTest1 {
         String actual = actualElement.getText();
         String expected = "Такой логин не подойдет";
         boolean bool = true;
-
         try {
             assertEquals(expected, actual);
-            WriteParamXML("passed");
+            writeXML("passed");
             bool = false;
         }
         finally {
             if (bool)
-               WriteParamXML("failed");
+               writeXML("failed");
         }
+
         driver.quit();
-    }
-
-    public void WriteParamXML(String result) throws TransformerException, IOException, ParserConfigurationException {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.newDocument();
-
-        Element root = doc.createElement("test");
-
-        Element element1 = doc.createElement("name");
-        element1.setTextContent("yandex");
-
-        Element element2 = doc.createElement("date");
-        Date date = new Date();
-        element2.setTextContent(date.toString());
-
-        Element element3 = doc.createElement("result");
-        element3.setTextContent(result);
-
-        doc.appendChild(root);
-        root.appendChild(element1);
-        root.appendChild(element2);
-        root.appendChild(element3);
-
-        Transformer t = TransformerFactory.newInstance().newTransformer();
-        t.transform(new DOMSource(doc), new StreamResult(new FileOutputStream("src/test/resources/results/result.xml")));
-    }
-
-    public WebElement scrollToElement(WebDriver driver, String xpath){
-        int time = (int)System.currentTimeMillis()/1000 + 5;
-
-        while (time > (int)System.currentTimeMillis()/1000){
-            try {
-                WebElement element = driver.findElement(By.xpath(xpath));
-                Actions action = new Actions(driver);
-                action.moveToElement(element).perform();
-                return element;
-            }
-            catch (Exception ignored){}
-        }
-        return null;
     }
 }
