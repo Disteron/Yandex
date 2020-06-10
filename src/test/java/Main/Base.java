@@ -40,10 +40,10 @@ public class Base {
 
     public void switchWindow(WebDriver driver, int i) {
         new WebDriverWait(driver, 20).until((ExpectedCondition<WebDriver>) driver1 ->
-                {
-                    String window = ((ArrayList<String>) driver.getWindowHandles()).get(i);
-                    return driver.switchTo().window(window);
-                }
+            {
+                String window = ((ArrayList<String>) driver.getWindowHandles()).get(i);
+                return driver.switchTo().window(window);
+            }
         );
     }
 
