@@ -37,7 +37,43 @@ public class Base {
         }
         return null;
     }
+    public WebElement clickToElement(WebDriver driver, String xpath){
+        int time = (int)System.currentTimeMillis()/1000 + 5;
 
+        while (time > (int)System.currentTimeMillis()/1000){
+            try {
+                WebElement element = driver.findElement(By.xpath(xpath));
+                element.click();
+                return element;
+            }
+            catch (Exception ignored){}
+        }
+        return null;
+    }
+    public void sendKeysToElement(WebDriver driver, String xpath, String value){
+        int time = (int)System.currentTimeMillis()/1000 + 5;
+
+        while (time > (int)System.currentTimeMillis()/1000) {
+            try {
+                WebElement element = driver.findElement(By.xpath(xpath));
+                element.clear();
+                element.sendKeys(value);
+                return;
+            } catch (Exception ignored) {}
+        }
+    }
+    public String getTextToElement(WebDriver driver, String xpath){
+        int time = (int)System.currentTimeMillis()/1000 + 5;
+
+        while (time > (int)System.currentTimeMillis()/1000){
+            try {
+                WebElement element = driver.findElement(By.xpath(xpath));
+                return element.getText();
+            }
+            catch (Exception ignored){}
+        }
+        return null;
+    }
     public void switchWindow(WebDriver driver, int i) {
         new WebDriverWait(driver, 20).until((ExpectedCondition<WebDriver>) driver1 ->
             {

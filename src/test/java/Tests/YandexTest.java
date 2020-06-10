@@ -1,6 +1,7 @@
 package Tests;
 
 import Main.Base;
+import com.google.common.base.Strings;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -40,9 +41,18 @@ public class YandexTest extends Base{
 
     @Test
     public void test() throws ParserConfigurationException, TransformerException, IOException {
+        String os = System.getProperty("os.name").toLowerCase();
+        //условие
+        if (os.contains("mac")){
+            System.setProperty("webdriver.chrome.driver", "webdrivers/chromedriver");
+        }
+        else if (os.contains("win")){
+            System.setProperty("webdriver.chrome.driver", "webdrivers/chromedriver.exe");
+        }
+        else {
+            System.out.println("Для данной системы нет браузера");
+        }
 
-        //определение пути до драйвера и его настройка
-        System.setProperty("webdriver.chrome.driver", "webdrivers/chromedriver");
         //создание экземпляра драйвера
         WebDriver driver = new ChromeDriver();
         //окно разворачивается на полный экран
@@ -52,13 +62,13 @@ public class YandexTest extends Base{
         //получение ссылки на страницу входа из файла настроек
         driver.get("https://yandex.ru/");
         //Вбиваем в поиске Яндекс почта
-        driver.findElement(By.xpath("//input[@name=\"text\"]")).sendKeys("Яндекс почта");
+        sendKeysToElement(driver, "//input[@name=\"text\"]","Яндекс почта" );
         //Нажимаем на кнопку найти
-        driver.findElement(By.xpath("//button[@type=\"submit\"]")).click();
+        clickToElement(driver, "//button[@type=\"submit\"]");
 
         //В результатах поиска выбираем и переходим на страницу Яндекс Почты
         // нажимаем на ссылку, которая открывает документ в новом окне
-        driver.findElement(By.xpath("//b[text()=\"mail.yandex.ru\"]")).click();
+        clickToElement(driver, "//b[text()=\"mail.yandex.ru\"]");
 
         // ожидаем открытия и получаем дескриптор нового окна
         switchWindow(driver, 1);
@@ -66,8 +76,8 @@ public class YandexTest extends Base{
         element.click();
 
         int a = (int) (1000 + Math.random() * 2000);
-        driver.findElement(By.xpath("//label[text()=\"Введите логин, почту или телефон\"]/../input")).sendKeys(String.valueOf(a));
-        driver.findElement(By.xpath("//span[text()=\"Войти\"]/..")).click();
+        sendKeysToElement(driver, "//label[text()=\"Введите логин, почту или телефон\"]/../input", Integer.toString(a) );
+        clickToElement(driver, "//span[text()=\"Войти\"]/..");
         WebElement actualElement = driver.findElement(By.xpath("//div[@class=\"passp-form-field__error\"]"));
         String actual = actualElement.getText();
         String expected = "Такой логин не подойдет";
